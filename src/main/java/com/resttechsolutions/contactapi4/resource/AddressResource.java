@@ -2,9 +2,8 @@ package com.resttechsolutions.contactapi4.resource;
 
 import com.resttechsolutions.contactapi4.entity.Address;
 import com.resttechsolutions.contactapi4.exception.AddressException;
-import com.resttechsolutions.contactapi4.repository.AddressRepository;
-import com.resttechsolutions.contactapi4.resource.dto.AddressDTO;
 import com.resttechsolutions.contactapi4.resource.dto.Response;
+import com.resttechsolutions.contactapi4.resource.dto.response.AddressResponseDTO;
 import com.resttechsolutions.contactapi4.service.implementation.AddressService;
 import com.resttechsolutions.contactapi4.util.GenericMapper;
 import org.modelmapper.ModelMapper;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/address")
-public class AddressResource extends AbstractResource<AddressDTO,Long>{
+public class AddressResource extends AbstractResource<AddressResponseDTO,Long>{
 
     private AddressService as;
     private Logger log = LoggerFactory.getLogger(AddressResource.class);
@@ -31,18 +30,18 @@ public class AddressResource extends AbstractResource<AddressDTO,Long>{
     }
 
     @Override
-    public ResponseEntity<Response> create(@RequestBody AddressDTO addressDTO, Response response) {
+    public ResponseEntity<Response> create(@RequestBody AddressResponseDTO addressResponseDTO, Response response) {
         log.info("AddressResource create init");
 
         try {
-            Address address = GenericMapper.map(addressDTO, Address.class, mm);
+            Address address = GenericMapper.map(addressResponseDTO, Address.class, mm);
 
-            response.response.put("Data", GenericMapper.map(as.create(address), AddressDTO.class, mm));
+            response.response.put("Data", GenericMapper.map(as.create(address), AddressResponseDTO.class, mm));
             response.response.put("Code", "01");
 
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         } catch (AddressException e) {
-            log.error(String.format("Error creating the address %s", addressDTO));
+            log.error(String.format("Error creating the address %s", addressResponseDTO));
 
             response.response.put("Code", "99");
             response.response.put("Error", true);
@@ -58,7 +57,7 @@ public class AddressResource extends AbstractResource<AddressDTO,Long>{
         log.info("AddressResource findById init");
 
         try{
-            response.response.put("Data", GenericMapper.map(as.findById(id), AddressDTO.class, mm));
+            response.response.put("Data", GenericMapper.map(as.findById(id), AddressResponseDTO.class, mm));
             response.response.put("Code", "01");
 
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -79,7 +78,7 @@ public class AddressResource extends AbstractResource<AddressDTO,Long>{
         log.info("AddressResource findAll init");
 
         try{
-            response.response.put("Data", GenericMapper.mapCollection(as.findAll(), AddressDTO.class, mm));
+            response.response.put("Data", GenericMapper.mapCollection(as.findAll(), AddressResponseDTO.class, mm));
             response.response.put("Code", "01");
 
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -96,18 +95,18 @@ public class AddressResource extends AbstractResource<AddressDTO,Long>{
     }
 
     @Override
-    public ResponseEntity<Response> update(@RequestBody AddressDTO addressDTO, Response response) {
+    public ResponseEntity<Response> update(@RequestBody AddressResponseDTO addressResponseDTO, Response response) {
         log.info("AddressResource update init");
 
         try{
-            Address address = GenericMapper.map(addressDTO, Address.class, mm);
+            Address address = GenericMapper.map(addressResponseDTO, Address.class, mm);
 
-            response.response.put("Data", GenericMapper.map(as.update(address), AddressDTO.class, mm));
+            response.response.put("Data", GenericMapper.map(as.update(address), AddressResponseDTO.class, mm));
             response.response.put("Code", "01");
 
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         } catch (AddressException e) {
-            log.error(String.format("Error creating the address %s", addressDTO));
+            log.error(String.format("Error creating the address %s", addressResponseDTO));
 
             response.response.put("Code", "99");
             response.response.put("Error", true);

@@ -26,6 +26,7 @@ public class TestData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Contact contact = new Contact();
 
+
         contact.setName("Toad");
         contact.setEmail("toad@gmail.com");
 

@@ -2,8 +2,8 @@ package com.resttechsolutions.contactapi4.resource;
 
 import com.resttechsolutions.contactapi4.entity.Phone;
 import com.resttechsolutions.contactapi4.exception.PhoneException;
-import com.resttechsolutions.contactapi4.resource.dto.PhoneDTO;
 import com.resttechsolutions.contactapi4.resource.dto.Response;
+import com.resttechsolutions.contactapi4.resource.dto.response.PhoneResponseDTO;
 import com.resttechsolutions.contactapi4.service.implementation.PhoneService;
 import com.resttechsolutions.contactapi4.util.GenericMapper;
 import org.modelmapper.ModelMapper;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/phone")
-public class PhoneResource extends AbstractResource<PhoneDTO, Long> {
+public class PhoneResource extends AbstractResource<PhoneResponseDTO, Long> {
 
     private Logger log = LoggerFactory.getLogger(PhoneResource.class);
     private PhoneService ps;
@@ -30,18 +30,18 @@ public class PhoneResource extends AbstractResource<PhoneDTO, Long> {
     }
 
     @Override
-    public ResponseEntity<Response> create(@RequestBody PhoneDTO phoneDTO, Response response) {
+    public ResponseEntity<Response> create(@RequestBody PhoneResponseDTO phoneResponseDTO, Response response) {
         log.info("PhoneResource create init");
 
         try{
-            Phone phone = GenericMapper.map(phoneDTO, Phone.class, mm);
+            Phone phone = GenericMapper.map(phoneResponseDTO, Phone.class, mm);
 
-            response.response.put("Data", GenericMapper.map(ps.create(phone), PhoneDTO.class, mm));
+            response.response.put("Data", GenericMapper.map(ps.create(phone), PhoneResponseDTO.class, mm));
             response.response.put("Code", "01");
 
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         } catch (PhoneException e) {
-            log.error(String.format("There was an error creating the phone %s", phoneDTO));
+            log.error(String.format("There was an error creating the phone %s", phoneResponseDTO));
 
             response.response.put("Code", "99");
             response.response.put("Error", true);
@@ -57,7 +57,7 @@ public class PhoneResource extends AbstractResource<PhoneDTO, Long> {
         log.info("PhoneResource findById init");
 
         try{
-            response.response.put("Data", GenericMapper.map(ps.findById(id), PhoneDTO.class, mm));
+            response.response.put("Data", GenericMapper.map(ps.findById(id), PhoneResponseDTO.class, mm));
             response.response.put("Code", "01");
 
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
@@ -78,7 +78,7 @@ public class PhoneResource extends AbstractResource<PhoneDTO, Long> {
         log.info("PhoneResource findAll init");
 
         try{
-            response.response.put("Data", GenericMapper.map(ps.findAll(), PhoneDTO.class, mm));
+            response.response.put("Data", GenericMapper.map(ps.findAll(), PhoneResponseDTO.class, mm));
             response.response.put("Code", "01");
 
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
@@ -95,18 +95,18 @@ public class PhoneResource extends AbstractResource<PhoneDTO, Long> {
     }
 
     @Override
-    public ResponseEntity<Response> update(@RequestBody PhoneDTO phoneDTO, Response response) {
+    public ResponseEntity<Response> update(@RequestBody PhoneResponseDTO phoneResponseDTO, Response response) {
         log.info("PhoneResource update init");
 
         try{
-            Phone phone = GenericMapper.map(phoneDTO, Phone.class, mm);
+            Phone phone = GenericMapper.map(phoneResponseDTO, Phone.class, mm);
 
-            response.response.put("Data", GenericMapper.map(ps.update(phone), PhoneDTO.class, mm));
+            response.response.put("Data", GenericMapper.map(ps.update(phone), PhoneResponseDTO.class, mm));
             response.response.put("Code", "01");
 
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         } catch (PhoneException e) {
-            log.error(String.format("There was an error updating the phone %s", phoneDTO));
+            log.error(String.format("There was an error updating the phone %s", phoneResponseDTO));
 
             response.response.put("Code", "99");
             response.response.put("Error", true);

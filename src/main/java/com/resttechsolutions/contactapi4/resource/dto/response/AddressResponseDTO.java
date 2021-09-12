@@ -1,21 +1,20 @@
-package com.resttechsolutions.contactapi4.resource.dto;
+package com.resttechsolutions.contactapi4.resource.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddressDTO implements Serializable {
+public class AddressResponseDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String name;
     private String addressName;
     @JsonBackReference
-    private ContactDTO contactDTO;
+    private ContactResponseDTO contactDTO;
 }
